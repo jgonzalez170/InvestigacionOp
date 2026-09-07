@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Optimización de Área Total</title>
+    <!-- Librería Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h2, h3 {
+            text-align: center;
+            color: #333;
+        }
+        /* Estilos de la tabla HTML */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+            position: sticky;
+            top: 0;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .tabla-contenedor {
+            max-height: 450px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Optimización de Área Total</h2>
+
+    <!-- Contenedor para la Gráfica -->
+    <div>
+        <canvas id="graficaArea"></canvas>
+    </div>
+
+    <!-- Contenedor con Scroll para la Tabla -->
+    <h3>Tabla de Resultados</h3>
+    <div class="tabla-contenedor">
+        <table>
+            <thead>
+                <tr>
+                    <th>Perímetro Círculo</th>
+                    <th>Perímetro Cuadrado</th>
+                    <th>Área Círculo</th>
+                    <th>Área Cuadrado</th>
+                    <th>Área Total</th>
+                </tr>
+            </thead>
+            <tbody id="cuerpoTabla">
+                <!-- Se poblará dinámicamente desde logica.js -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Importar archivo JS en la misma carpeta -->
+<script src="logica.js"></script>
+
+<!-- Renderizar la gráfica Chart.js -->
+<script>
+    const ctx = document.getElementById('graficaArea').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            datasets: [{
+                label: 'Área Total',
+                data: datosGrafica,
+                borderColor: 'rgb(54, 162, 235)',
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderWidth: 2,
+                fill: false,
+                pointRadius: 1,
+                pointHoverRadius: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    type: 'linear',
+                    position: 'bottom',
+                    title: {
+                        display: true,
+                        text: 'Perímetro del Círculo'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Área Total'
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return `P. Círculo: ${context.parsed.x.toFixed(4)}, Área Total: ${context.parsed.y.toFixed(4)}`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
